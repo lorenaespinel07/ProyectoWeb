@@ -5,7 +5,7 @@ from.models import Genero, Pelicula, Actor
 # Create your views here.
 
 def index(request):
-    return render(request)
+    return render(request, 'index.html')
 
 
 def lista_generos(request):

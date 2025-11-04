@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block titulo%} IMDeustoB {%endblock%}</title>
+</head>
+<body>
+    <header>
+        <h1>IMDeustoB</h1>
+        <p>Tu pagina de peliculas de confianza</p>
+    </header>
+    {%block contenido%}
+    <ul>
+        <li><a href="{% url 'lista_generos'%}">Lista de generos</a></li>
+        <li><a href="{% url 'lista_peliculas'%}">Lista de peliculas</a></li>
+        <li><a href="{% url 'lista_actores'%}">Lista de actores</a></li>
+
+    </ul>
+    {%endblock%}
+    
+</body>
+</html>

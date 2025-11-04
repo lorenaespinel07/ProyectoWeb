@@ -1,0 +1,24 @@
+
+{% extends 'index.html' %}
+
+{% block titulo %} genero.nombre {%endblock%}
+{%block contenido%}
+
+<h2>{{genero.nombre}}</h2>
+<span>Lista de peliculas:</span>
+
+
+<ul>
+
+{%for pelicula in genero.peliculas %}
+
+<li><strong>{{pelicula.nombre}}</strong><em>Año: {{pelicula.anyo}}</em>
+    <br>
+    <span>{{pelicula.sinopsis}}</span>
+</li>
+
+{%endfor%}
+
+</ul>
+
+{%endblock%}

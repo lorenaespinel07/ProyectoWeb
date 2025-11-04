@@ -1,2 +1,19 @@
 {%extends 'lista_actores.html'%}
 {%block titulo%}Lista Peliculas{%endblock%}
+
+<span>Lista de peliculas:</span>
+
+{%block contenido%}
+
+<ul>
+{%for pelicula in peliculas%}
+
+<li><strong>{{pelicula.nombre}}</strong>
+    <br>
+    <span>{{pelicula.sinopsis}}</span><em>Año: {{pelicula.anyo}}</em>
+</li>
+
+{%endfor%}
+</ul>
+
+{%endblock%}
