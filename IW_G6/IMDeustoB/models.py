@@ -35,5 +35,12 @@ class Actor(models.Model):
     pais = models.CharField(max_length=100, blank=True, null=True)
     imagen = models.URLField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Actor"
+        verbose_name_plural = "Actores"
+
+    def __str__(self):
+        return self.nombre
+
 
 
