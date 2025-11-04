@@ -16,7 +16,7 @@ class Genero(models.Model):
 
 class Pelicula(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-    sinopsis = models.CharField(max_length=200, blank=True, null=True)
+    sinopsis = models.CharField(max_length=500, blank=True, null=True)
     anyo = models.PositiveIntegerField(blank=True, null=True)
     generos = models.ManyToManyField(Genero, related_name="peliculas")
     imagen = models.URLField(blank=True, null=True)
@@ -34,6 +34,13 @@ class Actor(models.Model):
     nacimiento = models.CharField(max_length=100, blank=True, null=True)
     pais = models.CharField(max_length=100, blank=True, null=True)
     imagen = models.URLField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Actor"
+        verbose_name_plural = "Actores"
+
+    def __str__(self):
+        return self.nombre
 
 
 
