@@ -1,0 +1,27 @@
+{%extends 'index.html'%}
+{%block titulo%}{{pelicula.nombre}}{%endblock%}
+
+{%block contenido%}
+
+<img src="{{pelicula.imagen}}" alt="">
+<h2>{{pelicula.nombre}}</h2>
+<span>Año estreno: {{pelicula.anyo}}</span>
+<span>sinopsis: {{pelicula.sinopsis}}</span>
+
+<span>Lista de actores:</span>
+
+
+<ul>
+
+{%for actor in pelicula.actores.all %}
+
+<li><strong>{{actor.nombre}}</strong>
+    <br>
+    <a href="{%url 'detalle_actores' actor.id%}">Ver actor</a>
+</li>
+
+{%endfor%}
+
+</ul>
+
+{%endblock%}

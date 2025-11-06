@@ -1,0 +1,23 @@
+{%extends 'index.html'%}
+{%block titulo%}Lista Peliculas{%endblock%}
+
+{%block contenido%}
+<span>Lista de generos:</span>
+
+<ul>
+    {% for actor in actores %}
+
+    <li><strong>{{actor.nombre}}</strong>
+        <span>{{actor.nacimiento}}</span>
+        <br>
+        <a href="{% url 'detalle_actores' actor.id %}">Ver actor</a>
+        
+    </li>
+
+
+    {% endfor %}
+
+</ul>
+
+
+{%endblock%}
