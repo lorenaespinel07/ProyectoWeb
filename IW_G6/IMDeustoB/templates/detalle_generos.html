@@ -15,6 +15,10 @@
 <li><strong>{{pelicula.nombre}}</strong><em>Año: {{pelicula.anyo}}</em>
     <br>
     <span>{{pelicula.sinopsis}}</span>
+    <br>
+    <a href="{% url 'pelicula_detalles'%}">Ver pelicula</a>
+    <br>
+    <img src="{{pelicula.imagen}}" alt="" width="300px">
 </li>
 
 {%endfor%}

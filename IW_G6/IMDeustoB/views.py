@@ -19,6 +19,8 @@ def detalle_generos(request, pk):
 
 
 def lista_peliculas(request):
+
+
     peliculas= Pelicula.objects.all() 
     return render(request, 'lista_peliculas.html', {'peliculas': peliculas})
 
