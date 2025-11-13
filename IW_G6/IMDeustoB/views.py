@@ -1,41 +1,31 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from.models import Genero, Pelicula, Actor
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'index.html')
-
-
-def lista_generos(request):
-    generos= Genero.objects.all() 
-    return render(request, 'lista_generos.html', {'generos': generos})
-
-
-def detalle_generos(request, pk):
-    genero = get_object_or_404(Genero, pk=pk)
-    return render(request, 'detalle_generos.html', {'genero': genero})
-
-
 def lista_peliculas(request):
     peliculas= Pelicula.objects.all() 
-    return render(request, 'lista_peliculas.html', {'peliculas': peliculas})
+    return render(request, 'index.html', {'peliculas': peliculas})
 
+class PeliculaDetailView(DetailView):
+    model = Pelicula
+    context_object_name = 'pelicula'
+    template_name = 'moviesingle.html'
 
-def detalle_peliculas(request, pk):
-    pelicula = get_object_or_404(Pelicula, pk=pk)
-    return render(request, 'detalle_peliculas.html', {'pelicula': pelicula})
+class ActorListView(ListView):
+    model = Actor
+    context_object_name = 'actores'
+    template_name = "celebritylist.html"
 
+class ActorDetailView(DetailView):
+    model = Actor
+    context_object_name = 'actor'
+    template_name = 'celebritysingle.html' 
 
-def lista_actores(request):
-    actores = Actor.objects.all() 
-    return render(request, 'lista_actores.html', {'actores': actores})
-
-
-def detalle_actores(request, pk):
-    actor = get_object_or_404(Actor, pk=pk)
-    return render(request, 'detalle_actores.html', {'actor': actor})
 
 '''
 
