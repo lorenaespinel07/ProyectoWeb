@@ -13,4 +13,11 @@ urlpatterns = [
     
     path('actores', views.lista_actores, name='lista_actores'),
     path('actores/<int:pk>/', views.detalle_actores, name='detalle_actores'),
+
+    '''
+
+        path('actores/<int:pk>/', views.GeneroListView.as_view(), name='detalle_actores')
+
+    
+    '''
 ]

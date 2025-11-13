@@ -36,3 +36,17 @@ def lista_actores(request):
 def detalle_actores(request, pk):
     actor = get_object_or_404(Actor, pk=pk)
     return render(request, 'detalle_actores.html', {'actor': actor})
+
+'''
+
+class GeneroListView(ListView)
+    model = Genero #object_list
+    context_object_name = "generos"
+    template_name = 'el html'
+
+    queryset = Liga.object.all().order_by("nombre")
+
+    
+
+
+'''
