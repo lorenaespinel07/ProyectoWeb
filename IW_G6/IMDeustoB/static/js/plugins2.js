@@ -620,7 +620,7 @@
 			// If user will press the escape-button, the request will be canceled
 			D.bind('keydown.loading', function(e) {
 				if ((e.which || e.keyCode) === 27) {
-					e.preventDefault();
+					e.fault();
 
 					F.cancel();
 				}
@@ -699,14 +699,14 @@
 							if (current.group.length > 1 && val[ code ] !== undefined) {
 								F[ i ]( val[ code ] );
 
-								e.preventDefault();
+								e.fault();
 								return false;
 							}
 
 							if ($.inArray(code, val) > -1) {
 								F[ i ] ();
 
-								e.preventDefault();
+								e.fault();
 								return false;
 							}
 						});
@@ -738,7 +738,7 @@
 								F.next( deltaY < 0 ? 'up' : 'right' );
 							}
 
-							e.preventDefault();
+							e.fault();
 						}
 					}
 				});
@@ -1439,7 +1439,7 @@
 			if ( current.closeClick || (current.nextClick && F.group.length > 1) ) {
 				F.inner.css('cursor', 'pointer').bind('click.fb', function(e) {
 					if (!$(e.target).is('a') && !$(e.target).parent().is('a')) {
-						e.preventDefault();
+						e.fault();
 
 						F[ current.closeClick ? 'close' : 'next' ]();
 					}
@@ -1449,7 +1449,7 @@
 			// Create a close button
 			if (current.closeBtn) {
 				$(current.tpl.closeBtn).appendTo(F.skin).bind('click.fb', function(e) {
-					e.preventDefault();
+					e.fault();
 
 					F.close();
 				});
@@ -1949,7 +1949,7 @@
 
 					// Stop an event from bubbling if everything is fine
 					if (F.open(what, options) !== false) {
-						e.preventDefault();
+						e.fault();
 					}
 				}
 			};

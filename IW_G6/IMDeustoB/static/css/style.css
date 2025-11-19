@@ -138,6 +138,23 @@
   padding-left: 15px;
   padding-right: 15px;
 }
+
+.col-md-12 {
+  align-items: stretch;
+
+  
+
+ 
+}
+
+.ceb-item-style-2 img {
+  width: 100px;       /* o 150px según diseño */
+  height: auto;       /* mantiene proporciones */
+  display: block;
+  object-fit: cover;
+}
+
+
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
 }
@@ -6253,6 +6270,11 @@ ul {
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 30px;
+}
+
+.cast-it img {
+  height: 10rem;
+
 }
 .movie-single .movie-single-ct .mvcast-item .cast-it .cast-left {
   width: 60%;

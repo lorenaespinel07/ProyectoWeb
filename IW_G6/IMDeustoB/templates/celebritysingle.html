@@ -143,76 +143,20 @@
 							<a href="#page-top"></a>
 						</li>
 						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
-							Home <i class="fa fa-angle-down" aria-hidden="true"></i>
+							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown" href="{% url 'lista_peliculas' %}">
+							movies
 							</a>
-							<ul class="dropdown-menu level1">
-								<li><a href="index-2.html">Home 01</a></li>
-								<li><a href="homev2.html">Home 02</a></li>
-								<li><a href="homev3.html">Home 03</a></li>
-							</ul>
+							
 						</li>
 						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-							movies<i class="fa fa-angle-down" aria-hidden="true"></i>
+							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown" href="{% url 'lista_actores' %}">
+							celebrities 
 							</a>
-							<ul class="dropdown-menu level1">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
-									<ul class="dropdown-menu level2">
-										<li><a href="moviegrid.html">Movie grid</a></li>
-										<li><a href="moviegridfw.html">movie grid full width</a></li>
-									</ul>
-								</li>			
-								<li><a href="movielist.html">Movie list</a></li>
-								<li><a href="moviesingle.html">Movie single</a></li>
-								<li class="it-last"><a href="seriessingle.html">Series single</a></li>
-							</ul>
-						</li>
-						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-							celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
-							</a>
-							<ul class="dropdown-menu level1">
-								<li><a href="celebritygrid01.html">celebrity grid 01</a></li>
-								<li><a href="celebritygrid02.html">celebrity grid 02 </a></li>
-								<li><a href="celebritylist.html">celebrity list</a></li>
-								<li class="it-last"><a href="celebritysingle.html">celebrity single</a></li>
-							</ul>
-						</li>
-						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-							news <i class="fa fa-angle-down" aria-hidden="true"></i>
-							</a>
-							<ul class="dropdown-menu level1">
-								<li><a href="bloglist.html">blog List</a></li>
-								<li><a href="bloggrid.html">blog Grid</a></li>
-								<li class="it-last"><a href="blogdetail.html">blog Detail</a></li>
-							</ul>
-						</li>
-						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-							community <i class="fa fa-angle-down" aria-hidden="true"></i>
-							</a>
-							<ul class="dropdown-menu level1">
-								<li><a href="userfavoritegrid.html">user favorite grid</a></li>
-								<li><a href="userfavoritelist.html">user favorite list</a></li>
-								<li><a href="userprofile.html">user profile</a></li>
-								<li class="it-last"><a href="userrate.html">user rate</a></li>
-							</ul>
+							
 						</li>
 					</ul>
 					<ul class="nav navbar-nav flex-child-menu menu-right">
-						<li class="dropdown first">
-							<a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-							pages <i class="fa fa-angle-down" aria-hidden="true"></i>
-							</a>
-							<ul class="dropdown-menu level1">
-								<li><a href="landing.html">Landing</a></li>
-								<li><a href="404.html">404 Page</a></li>
-								<li class="it-last"><a href="comingsoon.html">Coming soon</a></li>
-							</ul>
-						</li>                
+						              
 						<li><a href="#">Help</a></li>
 						<li class="loginLink"><a href="#">LOG In</a></li>
 						<li class="btn signupLink"><a href="#">sign up</a></li>
@@ -253,12 +197,12 @@
 		<div class="row ipad-width">
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="mv-ceb">
-					<img src="{% static 'images/uploads/cebsingle2.png' %}" alt="">
+					<img src="{{actor.imagen}}" alt="">
 				</div>
 			</div>
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct">
-					<h1 class="bd-hd">Hugh Jackman</h1>
+					<h1 class="bd-hd">{{actor.nombre}}</h1>
 					<p class="ceb-single">Actor  |  Producer</p>
 					<div class="social-link cebsingle-socail">
 						<a href="#"><i class="ion-social-facebook"></i></a>
@@ -302,101 +246,33 @@
 											</div>
 											<!-- movie cast -->
 											<div class="mvcast-item">											
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film1.jpg' %}" alt="">
-														<div>
-															<a href="#">X-Men: Apocalypse </a>
-															<p class="time">Logan</p>
-														</div>
-														
-													</div>
-													<p>...  2016</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film2.jpg' %}" alt="">
-														<div>
-															<a href="#">Eddie the Eagle </a>
-															<p class="time">Bronson Peary</p>
+												{% for pelicula in actor.peliculas.all %}
+
+													<div class="cast-it">
+														<div class="cast-left cebleb-film">
+															<img src="{{pelicula.imagen}}" alt="">
+															<div>
+																<a href="{% url 'detalle_peliculas' pelicula.id%}"> {{pelicula.nombre}} </a>
+																<p class="time"> {{pelicula.anyo}} </p>
+															</div>
+															
 														</div>
 													</div>
-													<p>...  2015</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film3.jpg' %}" alt="">
-														<div>
-															<a href="#">Me and Earl and the Dying Girl </a>
-															<p class="time">Hugh Jackman</p>
-														</div>
-													</div>
-													<p>...  2015</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film4.jpg' %}" alt="">
-														<div>
-															<a href="#">Night at the Museum 3 </a>
-															<p class="time">Blackbeard</p>
-														</div>
-													</div>
-													<p>...  2014</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film5.jpg' %}" alt="">
-														<div>
-															<a href="#">X-Men: Days of Future Past </a>
-															<p class="time">Wolverine</p>
-														</div>
-													</div>
-													<p>...  2012</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film6.jpg' %}" alt="">
-														<div>
-															<a href="#">The Wolverine </a>
-															<p class="time">Logan</p>
-														</div>
-													</div>
-													<p>...  2011</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film7.jpg' %}" alt="">
-														<div>
-															<a href="#">Rise of the Guardians </a>
-															<p class="time">Bunny</p>
-														</div>
-													</div>
-													<p>...  2011</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left cebleb-film">
-														<img src="{% static 'images/uploads/film8.jpg' %}" alt="">
-														<div>
-															<a href="#">The Prestige </a>
-															<p class="time">Robert Angier</p>
-														</div>
-													</div>
-													<p>...  2010</p>
-												</div>
+												{%endfor%}
 											</div>
 						            	</div>
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		<div class="sb-it">
 						            			<h6>Fullname:  </h6>
-						            			<p><a href="#">Hugh Jackman</a></p>
+						            			<p><a href="#">{{actor.nombre}}</a></p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Date of Birth: </h6>
-						            			<p>June 24, 1982</p>
+						            			<p>{{actor.nacimiento}}</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Country:  </h6>
-						            			<p>Australian</p>
+						            			<p>{{actor.pais}}</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Height:</h6>
@@ -423,7 +299,7 @@
 						            	<div class="rv-hd">
 											<div>
 												<h3>Biography of</h3>
-						       	 				<h2>Hugh Jackman</h2>
+						       	 				<h2>TEST</h2>
 											</div>							            						
 						            	</div>
 						            	<p>Hugh Michael Jackman is an Australian actor, singer, multi-instrumentalist, dancer and producer. Jackman has won international recognition for his roles in major films, notably as superhero, period, and romance characters. He is best known for his long-running role as Wolverine in the X-Men film series, as well as for his lead roles in the romantic-comedy fantasy Kate & Leopold (2001), the action-horror film Van Helsing (2004), the drama The Prestige and The Fountain (2006), the epic historical romantic drama Australia (2008), the film version of Les Misérables (2012), and the thriller Prisoners (2013). His work in Les Misérables earned him his first Academy Award nomination for Best Actor and his first Golden Globe Award for Best Actor - Motion Picture Musical or Comedy in 2013. In Broadway theatre, Jackman won a Tony Award for his role in The Boy from Oz. A four-time host of the Tony Awards themselves, he won an Emmy Award for one of these appearances. Jackman also hosted the 81st Academy Awards on 22 February 2009.</p>
@@ -439,7 +315,7 @@
 						        		<div class="rv-hd">
 						            		<div>
 						            			<h3>Biography of</h3>
-					       	 					<h2>Hugh Jackman</h2>
+					       	 					<h2>{{actor.name}}</h2>
 						            		</div>
 						            	</div>
 						            	<div class="title-hd-sm">
@@ -560,7 +436,7 @@
 						            	<div class="rv-hd">
 						            		<div>
 						            			<h3>Biography of</h3>
-					       	 					<h2>Hugh Jackman</h2>
+					       	 					<h2>{{actor.name}}</h2>
 						            		</div>
 										
 						            	</div>
@@ -577,88 +453,24 @@
 											</select>
 										</div>
 										<!-- movie cast -->
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film1.jpg' %}" alt="">
-													<div>
-														<a href="#">X-Men: Apocalypse </a>
-														<p class="time">Logan</p>
-													</div>
-													
-												</div>
-												<p>...  2016</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film2.jpg' %}" alt="">
-													<div>
-														<a href="#">Eddie the Eagle </a>
-														<p class="time">Bronson Peary</p>
+										<div class="mvcast-item">
+											
+											{% for pelicula in actor.peliculas.all %}
+
+												<div class="cast-it">
+													<div class="cast-left cebleb-film">
+														<img src="{{pelicula.imagen}}" alt="">
+														<div>
+															<a href="{% url 'detalle_peliculas' pelicula.id%}"> {{pelicula.nombre}} </a>
+															<p class="time"> {{pelicula.anyo}} </p>
+														</div>
+														
 													</div>
 												</div>
-												<p>...  2015</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film3.jpg' %}" alt="">
-													<div>
-														<a href="#">Me and Earl and the Dying Girl </a>
-														<p class="time">Hugh Jackman</p>
-													</div>
-												</div>
-												<p>...  2015</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film4.jpg' %}" alt="">
-													<div>
-														<a href="#">Night at the Museum 3 </a>
-														<p class="time">Blackbeard</p>
-													</div>
-												</div>
-												<p>...  2014</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film5.jpg' %}" alt="">
-													<div>
-														<a href="#">X-Men: Days of Future Past </a>
-														<p class="time">Wolverine</p>
-													</div>
-												</div>
-												<p>...  2012</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film6.jpg' %}" alt="">
-													<div>
-														<a href="#">The Wolverine </a>
-														<p class="time">Logan</p>
-													</div>
-												</div>
-												<p>...  2011</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film7.jpg' %}" alt="">
-													<div>
-														<a href="#">Rise of the Guardians </a>
-														<p class="time">Bunny</p>
-													</div>
-												</div>
-												<p>...  2011</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left cebleb-film">
-													<img src="{% static 'images/uploads/film8.jpg' %}" alt="">
-													<div>
-														<a href="#">The Prestige </a>
-														<p class="time">Robert Angier</p>
-													</div>
-												</div>
-												<p>...  2010</p>
-											</div>
+											{%endfor%}
+											
+											
+											
 										</div>
 						            </div>
 					       	 	</div>
