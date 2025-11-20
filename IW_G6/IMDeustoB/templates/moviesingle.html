@@ -251,7 +251,13 @@
 		<div class="row ipad-width2">
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
-					<img src="{% static 'images/uploads/movie-single.jpg' %}" alt="">
+					
+					
+					
+					<img src="{{pelicula.imagen}}" alt="">
+					
+					
+					
 					<div class="movie-btn">	
 						<div class="btn-transform transform-vertical red">
 							<div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
@@ -266,7 +272,13 @@
 			</div>
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct main-content">
-					<h1 class="bd-hd">Skyfall: Quantum of Spectre <span>2015</span></h1>
+					
+					
+					
+					<h1 class="bd-hd"> {{pelicula.nombre}} <span> {{pelicula.anyo}}</span></h1>
+					
+					
+					
 					<div class="social-btn">
 						<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
 						<div class="hover-bnt">
@@ -312,8 +324,14 @@
 						        <div id="overview" class="tab active">
 						            <div class="row">
 						            	<div class="col-md-8 col-sm-12 col-xs-12">
-						            		<p>Tony Stark creates the Ultron Program to protect the world, but when the peacekeeping program becomes hostile, The Avengers go into action to try and defeat a virtually impossible enemy together. Earth's mightiest heroes must come together once again to protect the world from global extinction.</p>
-						            		<div class="title-hd-sm">
+						            		
+											
+											
+											<p>{{pelicula.sinopsis}}</p>
+						            		
+											
+											
+											<div class="title-hd-sm">
 												<h4>Videos & Photos</h4>
 												<a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
 											</div>
@@ -332,62 +350,21 @@
 											</div>
 											<!-- movie cast -->
 											<div class="mvcast-item">											
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast1.jpg' %}" alt="">
-														<a href="#">Robert Downey Jr.</a>
+												
+												
+												
+												{% for actor in pelicula.actores.all %}
+													<div class="cast-it">
+														<div class="cast-left">
+															<img src="{{actor.imagen}}" alt="">
+															<a href="{% url 'detalle_actores' actor.pk %}"> {{actor.nombre}} </a>
+														</div>
 													</div>
-													<p>...  Robert Downey Jr.</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast2.jpg' %}" alt="">
-														<a href="#">Chris Hemsworth</a>
-													</div>
-													<p>...  Thor</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast3.jpg' %}" alt="">
-														<a href="#">Mark Ruffalo</a>
-													</div>
-													<p>...  Bruce Banner/ Hulk</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast4.jpg' %}" alt="">
-														<a href="#">Chris Evans</a>
-													</div>
-													<p>...  Steve Rogers/ Captain America</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast5.jpg' %}" alt="">
-														<a href="#">Scarlett Johansson</a>
-													</div>
-													<p>...  Natasha Romanoff/ Black Widow</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast6.jpg' %}" alt="">
-														<a href="#">Jeremy Renner</a>
-													</div>
-													<p>...  Clint Barton/ Hawkeye</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast7.jpg' %}" alt="">
-														<a href="#">James Spader</a>
-													</div>
-													<p>...  Ultron</p>
-												</div>
-												<div class="cast-it">
-													<div class="cast-left">
-														<img src="{% static 'images/uploads/cast9.jpg' %}" alt="">
-														<a href="#">Don Cheadle</a>
-													</div>
-													<p>...  James Rhodes/ War Machine</p>
-												</div>
+												{% endfor %}
+												
+
+
+
 											</div>
 											<div class="title-hd-sm">
 												<h4>User reviews</h4>
@@ -427,11 +404,21 @@
 						            			<h6>Stars: </h6>
 						            			<p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
 						            		</div>
-						            		<div class="sb-it">
+						            		
+											
+											
+											<div class="sb-it">
 						            			<h6>Genres:</h6>
-						            			<p><a href="#">Action, </a> <a href="#"> Sci-Fi,</a> <a href="#">Adventure</a></p>
-						            		</div>
-						            		<div class="sb-it">
+						            			
+												{% for genero in pelicula.generos.all %}
+													<p><a href="#">{{genero.nombre}}</a></p>
+												{% endfor %}
+						            		
+											</div>
+						            		
+											
+											
+											<div class="sb-it">
 						            			<h6>Release Date:</h6>
 						            			<p>May 1, 2015 (U.S.A)</p>
 						            		</div>
