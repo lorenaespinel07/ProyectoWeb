@@ -5202,7 +5202,7 @@ jQuery.event = {
 
 					if ( ret !== undefined ) {
 						if ( ( event.result = ret ) === false ) {
-							event.preventDefault();
+							event.fault();
 							event.stopPropagation();
 						}
 					}
@@ -5431,13 +5431,13 @@ jQuery.Event.prototype = {
 	isImmediatePropagationStopped: returnFalse,
 	isSimulated: false,
 
-	preventDefault: function() {
+	fault: function() {
 		var e = this.originalEvent;
 
 		this.isDefaultPrevented = returnTrue;
 
 		if ( e && !this.isSimulated ) {
-			e.preventDefault();
+			e.fault();
 		}
 	},
 	stopPropagation: function() {
@@ -5569,7 +5569,7 @@ jQuery.fn.extend( {
 	},
 	off: function( types, selector, fn ) {
 		var handleObj, type;
-		if ( types && types.preventDefault && types.handleObj ) {
+		if ( types && types.fault && types.handleObj ) {
 
 			// ( event )  dispatched jQuery.Event
 			handleObj = types.handleObj;
@@ -8176,7 +8176,7 @@ jQuery.extend( jQuery.event, {
 			if ( handle && handle.apply && acceptData( cur ) ) {
 				event.result = handle.apply( cur, data );
 				if ( event.result === false ) {
-					event.preventDefault();
+					event.fault();
 				}
 			}
 		}

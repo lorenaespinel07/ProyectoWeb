@@ -29,16 +29,9 @@ $(function(){
 	    );	   
 	}else{
 		var dropdownClick = $('.navbar a.dropdown-toggle');
+		console.log(dropdown);
 		dropdownClick.on('click', function(e) {
-			var $el = $(this);
-			var $parent = $(this).offsetParent(".dropdown-menu");
-			var $open = $('.nav li.open');
-			$(this).parent("li").toggleClass('open');
-
-			if(!$parent.parent().hasClass('nav')) {
-				$el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
-			}
-			$open.not($(this).parents("li")).removeClass("open");
+			console.log('ckick')
 			return false;
 		});
 	}
@@ -58,7 +51,6 @@ $(function(){
 		tabsCurrent.show().siblings().hide();
 		// Change/remove current tab to active
 		$(this).parent('li').addClass('active').siblings().removeClass('active');
-		e.preventDefault();
 		//reset position for tabs
 		multiItem.slick('setPosition');
 		multiItem2.slick('setPosition');
@@ -453,7 +445,7 @@ $(function(){
 	});
 	//pop up for login form
     loginLink.on('click', function(event){
-    	event.preventDefault();
+    	event.fault();
     	loginct.parents(overlay).addClass("openform");
 		$(document).on('click', function(e){
 		var target = $(e.target);
@@ -469,7 +461,7 @@ $(function(){
     });
     //pop up for signup form
     signupLink.on('click', function(event){
-    	event.preventDefault();
+    	event.fault();
     	signupct.parents(overlay).addClass("openform");
 		$(document).on('click', function(e){
 		var target = $(e.target);
@@ -486,7 +478,7 @@ $(function(){
     // close popup for mobile
     var closebt = $(".close");
    	closebt.on('click', function(e){
-		e.preventDefault();
+		e.fault();
 		var overlay = $(".overlay");
 		overlay.removeClass("openform");
 	});	
@@ -511,7 +503,7 @@ $(function(){
 	//back to top js
 	var backtotop = $('#back-to-top');
     backtotop.on('click', function (e) {
-        e.preventDefault();
+        e.fault();
         $('html,body').animate({
             scrollTop: 0
         }, 700);
@@ -520,7 +512,7 @@ $(function(){
    // scroll down landing page
 	var scrolldownlanding = $('#discover-now');
     scrolldownlanding.on('click', function (e) {
-        e.preventDefault();
+        e.fault();
         $('html,body').animate({
             scrollTop: $(document).height()-$(window).height()
         }, 700);
