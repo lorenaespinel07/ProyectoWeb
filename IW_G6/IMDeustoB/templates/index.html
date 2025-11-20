@@ -186,8 +186,8 @@
 				<div class="hero-ct">
 					<h1> movie listing</h1>
 					<ul class="breadcumb">
-						<li class="active"><a href="#">Home</a></li>
-						<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+						<li class="active"><a href="#">Home: </a></li>
+						<li> <span class="ion-ios-arrow-right"></span> Movies </li>
 					</ul>
 				</div>
 			</div>
@@ -199,7 +199,13 @@
 		<div class="row ipad-width">
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="topbar-filter">
-					<p>Found <span>1,608 movies</span> in total</p>
+					
+					
+					
+					<p>Found <span>{{peliculas.count}} movies</span> in total</p>
+					
+					
+					
 					<label>Sort by:</label>
 					<select>
 						<option value="popularity">Popularity Descending</option>
@@ -270,11 +276,6 @@
 										<select
 											name="skills" multiple="" class="ui fluid dropdown">
 											<option value="">Enter to filter genres</option>
-											<option value="Action1">Action 1</option>
-					                        <option value="Action2">Action 2</option>
-					                        <option value="Action3">Action 3</option>
-					                        <option value="Action4">Action 4</option>
-					                        <option value="Action5">Action 5</option>
 										</select>
 									</div>	
 								</div>
