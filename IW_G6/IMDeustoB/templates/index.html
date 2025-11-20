@@ -302,14 +302,18 @@
 									<div class="row">
 										<div class="col-md-6">
 											<select name="anyoMenor">
-											  <option value="">From</option>
-											  <option value="{{anyoMenor}}">{{anyoMenor}}</option>
+											<option value="">From</option>
+											{% for anyo in lista_anyos %}
+												<option value="{{anyo}}">{{anyo}}</option>
+											{% endfor %}
 											</select>
 										</div>
 										<div class="col-md-6">
 											<select name="anyoMayor">
-											  <option value="">To</option>
-											  <option value="{{anyoMayor}}">{{anyoMayor}}</option>
+											<option value="">To</option>
+											{% for anyo in lista_anyos %}
+												<option value="{{anyo}}">{{anyo}}</option>
+											{% endfor %}
 											</select>
 										</div>
 									</div>
