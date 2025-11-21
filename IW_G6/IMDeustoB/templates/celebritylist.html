@@ -254,48 +254,81 @@
 				<div class="sidebar">
 						<div class="searh-form">
 						<h4 class="sb-title">Search celebrity</h4>
-						<form class="form-style-1 celebrity-form" action="#">
+						<form class="form-style-1 celebrity-form" method="get" action="#">
 							<div class="row">
 								<div class="col-md-12 form-it">
 									<label>Celebrity name</label>
-									<input type="text" placeholder="Enter keywords">
+									<input type="text" placeholder="Enter keywords" name="nombre" 
+											value="{{ request.GET.nombre|default:'' }}">
 								</div>
 								<div class="col-md-12 form-it">
 									<label>Celebrity Letter</label>
-									<select>
-									  <option value="range">A</option>
-									  <option value="saab">B</option>
-									</select>
+									<select name="letra">
+											<option value="">All letters</option>
+											{% for letra in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+											<option value="{{ letra }}" 
+													{% if request.GET.letra == letra %}selected{% endif %}>
+												{{ letra }}
+											</option>
+											{% endfor %}
+										</select>
 								</div>
 								<div class="col-md-12 form-it">
 									<label>Category</label>
-									<select>
-									  <option value="range">Actress</option>
-									  <option value="saab">Others</option>
+									<select name="categoria">
+										<option value="">All categories</option>
+										<option value="actor" {% if request.GET.categoria == 'actor' %}selected{% endif %}>
+											Actor
+										</option>
+										<option value="actress" {% if request.GET.categoria == 'actress' %}selected{% endif %}>
+											Actress
+										</option>
+										<option value="director" {% if request.GET.categoria == 'director' %}selected{% endif %}>
+											Director
+										</option>
 									</select>
 								</div>
 								<div class="col-md-12 form-it">
-									<label>Year of birth</label>
-									<div class="row">
-										<div class="col-md-6">
-											<select>
-											  <option value="range">1970</option>
-											  <option value="number">Other</option>
-											</select>
+										<label>Year of birth</label>
+										<div class="row">
+											<div class="col-md-6">
+												<select name="nacimientoDesde">
+													<option value="">From</option>
+													{% if lista_anyos_nacimiento %}
+														{% for anyo in lista_anyos_nacimiento %}
+														<option value="{{ anyo }}" 
+																{% if request.GET.nacimientoDesde == anyo %}selected{% endif %}>
+															{{ anyo }}
+														</option>
+														{% endfor %}
+													{% else %}
+														<option value="">No years available</option>
+													{% endif %}
+												</select>
+											</div>
+											<div class="col-md-6">
+												<select name="nacimientoHasta">
+													<option value="">To</option>
+													{% if lista_anyos_nacimiento %}
+														{% for anyo in lista_anyos_nacimiento %}
+														<option value="{{ anyo }}" 
+																{% if request.GET.nacimientoHasta == anyo %}selected{% endif %}>
+															{{ anyo }}
+														</option>
+														{% endfor %}
+													{% else %}
+														<option value="">No years available</option>
+													{% endif %}
+												</select>
+											</div>
 										</div>
-										<div class="col-md-6">
-											<select>
-											  <option value="range">1990</option>
-											  <option value="number">others</option>
-											</select>
-										</div>
-									</div>
 								</div>
 								<div class="col-md-12 ">
-									<input class="submit" type="submit" value="submit">
+										<input class="submit" type="submit" value="Submit">
+										<a href="?" class="submit" style="margin-left: 10px;">Clear filters</a>
+									</div>
 								</div>
-							</div>
-						</form>
+							</form>
 					</div>
 					<div class="ads">
 						<img src="{% static 'images/uploads/ads1.png' %}" alt="">
