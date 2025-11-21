@@ -48,6 +48,58 @@ class PeliculaDetailView(DetailView):
     context_object_name = 'pelicula'
     template_name = 'moviesingle.html'
 
+def lista_actores(request):
+    actores = Actor.objects.all()
+
+    nombre = request.GET.get('nombre')
+    letra = request.GET.get('letra')
+    desde = request.GET.get('nacimientoDesde')
+    hasta = request.GET.get('nacimientoHasta')
+    
+    # NOMBRE
+    if nombre:
+        actores = actores.filter(nombre__icontains=nombre)
+    
+    # LETRA INICIAL
+    if letra:
+        actores = actores.filter(nombre__istartswith=letra)
+    
+    # AÑO NACIMIENTO
+    if desde or hasta:
+        actores_filtrados = []
+        for actor in actores:
+            if actor.nacimiento and '/' in actor.nacimiento:
+                try:
+                    año_actor = int(actor.nacimiento.split('/')[2])
+                    cumple_desde = not desde or año_actor >= int(desde)
+                    cumple_hasta = not hasta or año_actor <= int(hasta)
+                    if cumple_desde and cumple_hasta:
+                        actores_filtrados.append(actor.id)
+                except (ValueError, IndexError):
+                    continue
+        actores = Actor.objects.filter(id__in=actores_filtrados)
+    
+    actores_con_fecha = Actor.objects.exclude(nacimiento__isnull=True).exclude(nacimiento__exact='')
+    
+    años_nacimiento = []
+    for actor in actores_con_fecha:
+        if actor.nacimiento and '/' in actor.nacimiento:
+            try:
+                año = int(actor.nacimiento.split('/')[2])
+                años_nacimiento.append(año)
+            except (ValueError, IndexError):
+                continue
+
+    año_menor = min(años_nacimiento)
+    año_mayor = max(años_nacimiento)
+    lista_anyos_nacimiento = [str(año) for año in range(año_menor, año_mayor + 1)]
+
+
+    return render(request, 'celebritylist.html', {
+        'actores': actores,
+        'lista_anyos_nacimiento': lista_anyos_nacimiento
+    })
+
 class ActorListView(ListView):
     model = Actor
     context_object_name = 'actores'
