@@ -222,18 +222,18 @@
 						
 					{% for pelicula in peliculas%}
 							<div class="movie-item-style-2 movie-item-style-1">
-							<img  src="{{ pelicula.imagen }}" alt="">
+							<img  src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="">
 							<div class="hvr-inner">
-    							<a href="{% url 'detalle_peliculas' pelicula.pk %}">Read more</a>
+    							<a href="{% url 'detalle_peliculas' pelicula.id %}">Read more</a>
 	            			</div>
 							<div class="mv-item-infor">
-								<h6><a  href="#">{{ pelicula.nombre }}</a></h6>
+								<h6><a  href="#">{{ pelicula.title }}</a></h6>
 							</div>
 						</div>	
 					{% endfor %}
 					
 
-					<div class="movie-item-style-2 movie-item-style-1">
+					<!-- <div class="movie-item-style-2 movie-item-style-1">
 							<img class="poster" src="" alt="">
 							<div class="hvr-inner">
     							<a class="detalle" href="">Read more</a>
@@ -322,7 +322,7 @@
 						}
 						getPeli()
 
-					</script>
+					</script> -->
 						
 	            		
 				</div>		

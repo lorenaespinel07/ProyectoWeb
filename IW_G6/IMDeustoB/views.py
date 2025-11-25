@@ -3,50 +3,36 @@ from django.http import HttpResponse
 from.models import Genero, Pelicula, Actor
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+import requests
 
 
 # Create your views here.
 
 def lista_peliculas(request):
-    peliculas= Pelicula.objects.all()
-    generos = Genero.objects.all()
-
-    idsGeneros = request.GET.getlist('skills')
-    skills_ids = [int(skill) for skill in idsGeneros]
-
-    if skills_ids:
-        peliculas = Pelicula.objects.filter(generos__id__in=skills_ids)
-
-    # Año más antiguo y más reciente
-    anyoMenor = Pelicula.objects.order_by('anyo').first()
-    anyoMayor = Pelicula.objects.order_by('anyo').last()
-
-    lista_anyos = []
-    if anyoMenor and anyoMayor:
-        lista_anyos = list(range(anyoMenor.anyo, anyoMayor.anyo + 1))
-
-    # Filtro por rango de años
-    desde = request.GET.get('anyoMenor')
-    hasta = request.GET.get('anyoMayor')
-
-    if desde:
-        peliculas = peliculas.filter(anyo__gte=desde)
-    if hasta:
-        peliculas = peliculas.filter(anyo__lte=hasta)
+    response = requests.get("https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES")
+    resul = response.json()
 
     return render(
         request,
         'index.html',
         {
-            'peliculas': peliculas,
-            'generos': generos,
-            'lista_anyos': lista_anyos,
+            'peliculas': resul['results'],
+            'generos': None,
+            'lista_anyos': None,
         }
     )
 class PeliculaDetailView(DetailView):
     model = Pelicula
     context_object_name = 'pelicula'
     template_name = 'moviesingle.html'
+
+     def get_queryset(self):
+        peli_id = self.kwargs['pk'] 
+
+        response = requests.get(f'https://api.themoviedb.org/3/movie/{peli_id}?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES')
+        resul = response.json()
+        # titulo, año, director, escritores, actores, generos, fecha, duracion, rating
+        return 
 
 def lista_actores(request):
     actores = Actor.objects.all()
