@@ -6291,8 +6291,8 @@ ul {
   color: #abb7c4;
   font-weight: bold;
   text-transform: uppercase;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   background-color: #233a50;
   display: -webkit-flex;
   display: -moz-box;
@@ -6304,6 +6304,12 @@ ul {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin-right: 15px;
+}
+
+.movie-single .movie-single-ct .mvcast-item .cast-it .cast-left img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 .movie-single .movie-single-ct .mvcast-item .cast-it p {
   width: 40%;

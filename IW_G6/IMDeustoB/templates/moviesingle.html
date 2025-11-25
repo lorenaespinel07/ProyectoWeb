@@ -12,7 +12,7 @@
 <!-- moviesingle07:38-->
 <head>
 	<!-- Basic need -->
-	<title>Open Pediatrics</title>
+	<title>{{pelicula.title}}</title>
 	<meta charset="UTF-8">
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -198,7 +198,7 @@
 					
 					
 					
-					<img src="{{pelicula.imagen}}" alt="">
+					<img src="https://image.tmdb.org/t/p/w500{{pelicula.poster_path}}" alt="">
 					
 					
 					
@@ -219,7 +219,7 @@
 					
 					
 					
-					<h1 class="bd-hd"> {{pelicula.nombre}} <span> {{pelicula.anyo}}</span></h1>
+					<h1 class="bd-hd"> {{pelicula.title}}</h1>
 					
 					
 					
@@ -238,8 +238,8 @@
 					<div class="movie-rate">
 						<div class="rate">
 							<i class="ion-android-star"></i>
-							<p><span>8.1</span> /10<br>
-								<span class="rv">56 Reviews</span>
+							<p><span>{{pelicula.vote_average}}</span> /10<br>
+								<span class="rv">{{pelicula.vote_count}} Reviews</span>
 							</p>
 						</div>
 						<div class="rate-star">
@@ -268,82 +268,42 @@
 						            		
 											
 											
-											<p>{{pelicula.sinopsis}}</p>
+											<p>{{pelicula.overview}}</p>
 						            		
 											
 											
-											<div class="title-hd-sm">
-												<h4>Videos & Photos</h4>
-												<a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<div class="mvsingle-item ov-item">
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image11.jpg" ><img src="{% static 'images/uploads/image1.jpg' %}" alt=""></a>
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image21.jpg" ><img src="{% static 'images/uploads/image2.jpg' %}" alt=""></a>
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image31.jpg" ><img src="{% static 'images/uploads/image3.jpg' %}" alt=""></a>
-												<div class="vd-it">
-													<img class="vd-img" src="{% static 'images/uploads/image4.jpg' %}" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="{% static 'images/uploads/play-vd.png' %}" alt=""></a>
-												</div>
-											</div>
-											<div class="title-hd-sm">
-												<h4>cast</h4>
-												<a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<!-- movie cast -->
-											<div class="mvcast-item">											
-												
-												
-												
-												{% for actor in pelicula.actores.all %}
-													<div class="cast-it">
-														<div class="cast-left">
-															<img src="{{actor.imagen}}" alt="">
-															<a href="{% url 'detalle_actores' actor.pk %}"> {{actor.nombre}} </a>
-														</div>
-													</div>
-												{% endfor %}
-												
-
-
-
-											</div>
-											<div class="title-hd-sm">
-												<h4>User reviews</h4>
-												<a href="#" class="time">See All 56 Reviews <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<!-- movie user review -->
-											<div class="mv-user-review-item">
-												<h3>Best Marvel movie in my opinion</h3>
-												<div class="no-star">
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star last"></i>
-												</div>
-												<p class="time">
-													17 December 2016 by <a href="#"> hawaiipierson</a>
-												</p>
-												<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
-											</div>
+											
 						            	</div>
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		<div class="sb-it">
 						            			<h6>Director: </h6>
-						            			<p><a href="#">Joss Whedon</a></p>
+						            			<p>
+													{% for crew in creditos.crew %}
+														{%if crew.department == "Directing"%}
+															<a href="{% url 'detalle_actores' crew.id%}">{{crew.name}}</a>
+														{%endif%}
+													{%endfor%}
+												</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Writer: </h6>
-						            			<p><a href="#">Joss Whedon,</a> <a href="#">Stan Lee</a></p>
+						            			<p>
+													{% for crew in creditos.crew %}
+														{%if crew.department == "Writing"%}
+															<a href="{% url 'detalle_actores' crew.id%}">{{crew.name}}</a>
+														{%endif%}
+													{%endfor%}
+												</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Stars: </h6>
-						            			<p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
+						            			<p>
+													{% for crew in creditos.crew %}
+														{%if crew.department == "Crew"%}
+															<a href="{% url 'detalle_actores' crew.id%}">{{crew.name}}</a>
+														{%endif%}
+													{%endfor%}
+												</p>
 						            		</div>
 						            		
 											
@@ -351,8 +311,8 @@
 											<div class="sb-it">
 						            			<h6>Genres:</h6>
 						            			
-												{% for genero in pelicula.generos.all %}
-													<p><a href="#">{{genero.nombre}}</a></p>
+												{% for genero in pelicula.genres %}
+													<p><a href="#">{{genero.name}}</a></p>
 												{% endfor %}
 						            		
 											</div>
@@ -361,26 +321,14 @@
 											
 											<div class="sb-it">
 						            			<h6>Release Date:</h6>
-						            			<p>May 1, 2015 (U.S.A)</p>
+						            			<p>{{pelicula.release_date}}</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Run Time:</h6>
-						            			<p>141 min</p>
+						            			<p>{{pelicula.runtime}}</p>
 						            		</div>
-						            		<div class="sb-it">
-						            			<h6>MMPA Rating:</h6>
-						            			<p>PG-13</p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Plot Keywords:</h6>
-						            			<p class="tags">
-						            				<span class="time"><a href="#">superhero</a></span>
-													<span class="time"><a href="#">marvel universe</a></span>
-													<span class="time"><a href="#">comic</a></span>
-													<span class="time"><a href="#">blockbuster</a></span>
-													<span class="time"><a href="#">final battle</a></span>
-						            			</p>
-						            		</div>
+						            		
+						            		
 						            		<div class="ads">
 												<img src="{% static 'images/uploads/ads1.png' %}" alt="">
 											</div>
@@ -569,67 +517,61 @@
 						        <div id="cast" class="tab">
 						        	<div class="row">
 						            	<h3>Cast & Crew of</h3>
-					       	 			<h2>Avengers: Age of Ultron</h2>
+					       	 			<h2>{{pelicula.title}}</h2>
 										<!-- //== -->
 					       	 			<div class="title-hd-sm">
-											<h4>Directors & Credit Writers</h4>
+											<h4>Directors</h4>
 										</div>
-										<div class="mvcast-item">											
+										<div class="mvcast-item">	
+											{% for crew in creditos.crew %}
+
+											{% if crew.department == "Directing"%}
 											<div class="cast-it">
 												<div class="cast-left">
-													<h4>JW</h4>
-													<a href="#">Joss Whedon</a>
+
+													{%if crew.profile_path%}
+														<img src="https://image.tmdb.org/t/p/w500{{crew.profile_path}}" alt="">
+
+													{% else %}
+														<h4>{{crew.name|first}}</h4>
+													{%endif%}
+													
+													<a href="{% url 'detalle_actores' crew.id%}">{{crew.name}}</a>
+													
 												</div>
-												<p>...  Director</p>
+												<p>{{crew.department}} department</p>
+											</div>
+											{%endif%}	
+											{%endfor%}	
 											</div>
 										</div>
 										<!-- //== -->
 										<div class="title-hd-sm">
-											<h4>Directors & Credit Writers</h4>
+											<h4>Crew</h4>
 										</div>
-										<div class="mvcast-item">											
+										<div class="mvcast-item">	
+
+											{% for crew in creditos.crew %}
+
+											{% if crew.department != "Directing"%}
 											<div class="cast-it">
 												<div class="cast-left">
-													<h4>SL</h4>
-													<a href="#">Stan Lee</a>
+
+													{%if crew.profile_path%}
+														<img src="https://image.tmdb.org/t/p/w500{{crew.profile_path}}" alt="">
+
+													{% else %}
+														<h4>{{crew.name|first}}</h4>
+													{%endif%}
+													
+													<a href="{% url 'detalle_actores' crew.id%}">{{crew.name}}</a>
+													
 												</div>
-												<p>...  (based on Marvel comics)</p>
+												<p>{{crew.department}} department</p>
 											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JK</h4>
-													<a href="#">Jack Kirby</a>
-												</div>
-												<p>...  (based on Marvel comics)</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JS</h4>
-													<a href="#">Joe Simon</a>
-												</div>
-												<p>...  (character created by: Captain America)</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JS</h4>
-													<a href="#">Joe Simon</a>
-												</div>
-												<p>...  (character created by: Thanos)</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>RT</h4>
-													<a href="#">Roy Thomas</a>
-												</div>
-												<p>...  (character created by: Ultron, Vision)</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JB</h4>
-													<a href="#">John Buscema</a>
-												</div>
-												<p>...  (character created by: Ultron, Vision)</p>
-											</div>
+											{%endif%}	
+											{%endfor%}							
+											
 										</div>
 										<!-- //== -->
 										<div class="title-hd-sm">
@@ -637,77 +579,24 @@
 										</div>
 										<div class="mvcast-item">
 																					
-											{% for actor in pelicula.actores.all %}
+											{% for cast in creditos.cast %}
 													<div class="cast-it">
 														<div class="cast-left">
-															<img src="{{actor.imagen}}" alt="">
-															<a href="{% url 'detalle_actores' actor.pk %}"> {{actor.nombre}} </a>
+															{%if cast.profile_path%}
+																<img src="https://image.tmdb.org/t/p/w500{{cast.profile_path}}" alt="">
+
+															{% else %}
+																<h4>{{cast.name|first}}</h4>
+															{%endif%}
+															<a href="{% url 'detalle_actores' cast.id %}"> {{cast.name}} </a>
 														</div>
+														<p>Character: {{cast.character}}</p>
+
 													</div>
 											{% endfor %}
 										</div>
 										<!-- //== -->
-										<div class="title-hd-sm">
-											<h4>Produced by</h4>
-										</div>
-										<div class="mvcast-item">											
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>VA</h4>
-													<a href="#">Victoria Alonso</a>
-												</div>
-												<p>...  executive producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>MB</h4>
-													<a href="#">Mitchel Bell</a>
-												</div>
-												<p>...  co-producer (as Mitch Bell)</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JC</h4>
-													<a href="#">Jamie Christopher</a>
-												</div>
-												<p>...  associate producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>LD</h4>
-													<a href="#">Louis D’Esposito</a>
-												</div>
-												<p>...  executive producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JF</h4>
-													<a href="#">Jon Favreau</a>
-												</div>
-												<p>...  executive producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>KF</h4>
-													<a href="#">Kevin Feige</a>
-												</div>
-												<p>...  producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>AF</h4>
-													<a href="#">Alan Fine</a>
-												</div>
-												<p>...  executive producer</p>
-											</div>
-											<div class="cast-it">
-												<div class="cast-left">
-													<h4>JF</h4>
-													<a href="#">Jeffrey Ford</a>
-												</div>
-												<p>...  associate producer</p>
-											</div>
-										</div>
+										
 						            </div>
 					       	 	</div>
 					       	 	<div id="media" class="tab">
