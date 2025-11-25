@@ -6402,6 +6402,12 @@ ul {
 .movie-single p a {
   color: #4280bf;
 }
+
+.movie-single p a:not(:last-child)::after {
+  content: ',';
+  font-size: 2rem;
+}
+
 .movie-single p a:hover {
   color: #dcf836;
 }
