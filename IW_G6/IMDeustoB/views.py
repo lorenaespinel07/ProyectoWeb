@@ -26,13 +26,34 @@ class PeliculaDetailView(DetailView):
     context_object_name = 'pelicula'
     template_name = 'moviesingle.html'
 
-    def get_queryset(self):
+    def get_object(self):
         peli_id = self.kwargs['pk'] 
 
-        response = requests.get(f'https://api.themoviedb.org/3/movie/{peli_id}?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES')
+        url = f'https://api.themoviedb.org/3/movie/{peli_id}?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES'
+
+        response = requests.get(url=url)
         resul = response.json()
+
+        
         # titulo, año, director, escritores, actores, generos, fecha, duracion, rating
-        return 
+        return resul
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        peli_id = self.kwargs.get('pk') 
+
+        url = f'https://api.themoviedb.org/3/movie/{peli_id}/credits?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES'
+
+        print(url)
+
+        creditResul = requests.get(url=url)
+        resulCredit = creditResul.json()
+
+        print(resulCredit)
+        context['creditos'] = resulCredit
+
+        return context
+
 
 def lista_actores(request):
     actores = Actor.objects.all()
