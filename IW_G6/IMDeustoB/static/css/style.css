@@ -4630,6 +4630,10 @@ ul {
 .topbar-filter .pagination2 span {
   margin-right: 15px;
 }
+
+.topbar-filter .pagination2 span span{
+  margin-right: 0px;
+}
 .topbar-filter .pagination2 span,
 .topbar-filter .pagination2 a {
   font-family: 'Nunito', sans-serif;

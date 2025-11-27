@@ -9,34 +9,15 @@ import requests
 # Create your views here.
 
 def lista_peliculas(request):
-    page = request.GET.get('page', 1)
-    per_page = request.GET.get('per_page', 20)
-
-    try:
-        page = int(page)
-    except ValueError:
-        page = 1
-    try:
-        per_page = int(per_page)
-    except ValueError:
-        per_page = 20
         
     response = requests.get("https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES")
     resul = response.json()
 
-    peliculas = resul['results'][:per_page]
+    print(resul)
 
     return render(
         request,
-        'index.html',
-        {
-            'peliculas': resul['results'],
-            'generos': None,
-            'lista_anyos': None,
-            'page': page,
-            'per_page': per_page,
-            'total_pages': resul.get('total_pages', 1)
-        }
+        'index.html',{'peliculas': resul['results'], 'pags_totales': resul['total_pages'], 'peliculas_totales': resul['total_results']}
     )
 class PeliculaDetailView(DetailView):
     model = Pelicula
@@ -61,92 +42,16 @@ class PeliculaDetailView(DetailView):
 
         url = f'https://api.themoviedb.org/3/movie/{peli_id}/credits?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES'
 
-        print(url)
 
         creditResul = requests.get(url=url)
         resulCredit = creditResul.json()
 
-        print(resulCredit)
         context['creditos'] = resulCredit
 
         return context
 
 
-def lista_actores(request):
 
-    nombre = request.GET.get('nombre')
-    letra = request.GET.get('letra')
-    desde = request.GET.get('nacimientoDesde')
-    hasta = request.GET.get('nacimientoHasta')
-
-    if nombre:
-        # Buscar por nombre exacto o parcial
-        url = "https://api.themoviedb.org/3/search/person?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-    else:
-        # Lista de personas populares
-        url = "https://api.themoviedb.org/3/person/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-
-    response = requests.get(url=url)
-    data = response.json()
-
-    actores = data.get("results", [])
-    
-    # NOMBRE
-    if nombre:
-        actores = [a for a in actores if nombre.lower() in a.get("name", "").lower()]
-    
-    # LETRA INICIAL
-    if letra:
-        actores = [a for a in actores if a.get("name", "").lower().startswith(letra.lower())]
-    
-    actores_cumpleaños = []
-
-    for actor in actores:
-        cumpleaños_url = f"https://api.themoviedb.org/3/person/{actor['id']}?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-        cumpleaños_resp = requests.get(cumpleaños_url)
-        cumpleaños_lista = cumpleaños_resp.json()
-
-        cumpleaños = cumpleaños_lista.get("birthday")  # formato YYYY-MM-DD o None
-
-        # Añadimos info al actor original
-        actor['cumpleanyos'] = cumpleaños
-        actores_cumpleaños.append(actor)
-    
-    # AÑO NACIMIENTO
-    if desde or hasta:
-        actores_filtrados = []
-        for actor in actores_cumpleaños:
-            if actor['cumpleanyos']:
-                try:
-                    año = int(actor['cumpleanyos'].split("-")[0])
-                    cumple_desde = not desde or año >= int(desde)
-                    cumple_hasta = not hasta or año <= int(hasta)
-                    if cumple_desde and cumple_hasta:
-                        actores_filtrados.append(actor)
-                except:
-                    continue
-        actores_cumpleaños = actores_filtrados
-    
-    años = []
-    for actor in actores_cumpleaños:
-        if actor['cumpleanyos']:
-            try:
-                años.append(int(actor['cumpleanyos'].split("-")[0]))
-            except:
-                continue
-
-    if años:
-        año_menor = min(años)
-        año_mayor = max(años)
-        lista_anyos_nacimiento = [str(a) for a in range(año_menor, año_mayor + 1)]
-    else:
-        lista_anyos_nacimiento = []
-
-
-    return render(request, 'celebritylist.html', {
-        'actores': actores_cumpleaños,
-        'lista_anyos_nacimiento': lista_anyos_nacimiento
-    })
 
 class ActorListView(ListView):
     model = Actor
@@ -270,16 +175,4 @@ class ActorDetailView(DetailView):
         context['filmografia'] = filmografia
 
         return context
-'''
 
-class GeneroListView(ListView)
-    model = Genero #object_list
-    context_object_name = "generos"
-    template_name = 'el html'
-
-    queryset = Liga.object.all().order_by("nombre")
-
-    
-
-
-'''
