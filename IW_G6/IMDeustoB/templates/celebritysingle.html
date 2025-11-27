@@ -231,23 +231,7 @@
 						            	<div class="col-md-8 col-sm-12 col-xs-12">
 											<p> {{ actor.biography }}</p>
 											<p class="time"><a href="#">See full bio <i class="ion-ios-arrow-right"></i></a></p>
-						            		<div class="title-hd-sm">
-												<h4>Videos & Photos</h4>
-												<a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<div class="mvsingle-item ov-item">
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image11.jpg" ><img src="{% static 'images/uploads/image1.jpg' %}" alt=""></a>
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image21.jpg" ><img src="{% static 'images/uploads/image2.jpg' %}" alt=""></a>
-												<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image31.jpg" ><img src="{% static 'images/uploads/image3.jpg' %}" alt=""></a>
-												<div class="vd-it">
-													<img class="vd-img" src="{% static 'images/uploads/image4.jpg' %}" alt="">
-													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="{% static 'images/uploads/play-vd.png' %}" alt=""></a>
-												</div>
-											</div>
-											<div class="title-hd-sm">
-												<h4>filmography</h4>
-												<a href="#" class="time">Full Filmography<i class="ion-ios-arrow-right"></i></a>
-											</div>
+						            		
 											<!-- movie cast -->
 											<div class="mvcast-item">											
 												{% for pelicula in actor.peliculas.all %}
