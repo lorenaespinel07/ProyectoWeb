@@ -9,8 +9,22 @@ import requests
 # Create your views here.
 
 def lista_peliculas(request):
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 20)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+    try:
+        per_page = int(per_page)
+    except ValueError:
+        per_page = 20
+        
     response = requests.get("https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES")
     resul = response.json()
+
+    peliculas = resul['results'][:per_page]
 
     return render(
         request,
@@ -19,6 +33,9 @@ def lista_peliculas(request):
             'peliculas': resul['results'],
             'generos': None,
             'lista_anyos': None,
+            'page': page,
+            'per_page': per_page,
+            'total_pages': resul.get('total_pages', 1)
         }
     )
 class PeliculaDetailView(DetailView):
