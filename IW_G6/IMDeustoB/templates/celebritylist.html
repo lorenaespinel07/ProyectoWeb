@@ -201,7 +201,7 @@
 
 
 
-					<p class="pad-change">Found <span>{{actores.count}} celebrities</span> in total</p>
+					<p class="pad-change">Found <span>{{actores | length}} celebrities</span> in total</p>
 					
 					
 					
@@ -222,13 +222,13 @@
 					{% for actor in actores %}
 						<div class="col-md-12">
 							<div class="ceb-item-style-2">
-								<img src="{{ actor.imagen }}" alt="">
+								<img src="https://image.tmdb.org/t/p/w500{{ actor.profile_path }}" alt="{{ actor.name }}">
 
 								
 								<div class="ceb-infor">
-									<h2><a href="{% url 'detalle_actores' actor.id%}">{{ actor.nombre }}</a></h2>
-									<span>actor, {{ actor.pais }}</span>
-									<p>Dan Stevens was born at Croydon in Surrey on 10th October 1982. His parents are teachers. He was educated at Tonbridge School and trained in acting at the National Youth Theatre of Great Britain...  (LO DEJO PARA CAMBIARLO DESPUES)</p>
+									<h2><a href="{% url 'detalle_actores' actor.id%}">{{ actor.name }}</a></h2>
+									<span>{{actor.known_for_department}}, {{ actor.cumpleanyos.place_of_birth}}</span>
+									<p>{{actor.cumpleanyos.biography}}</p>
 								</div>
 							</div>
 						</div>
