@@ -199,94 +199,86 @@
 		<div class="row ipad-width">
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="topbar-filter">
-					
-					
-					
-					<p>Found <span>{{peliculas.count}} movies</span> in total</p>
-					
-					
-					
+					<p>Found <span id="total-movies">0</span> movies in total</p>
+
 					<label>Sort by:</label>
 					<select>
 						<option value="popularity">Popularity Descending</option>
-						<option value="popularity">Popularity Ascending</option>
+						<option value="popularity_asc">Popularity Ascending</option>
 						<option value="rating">Rating Descending</option>
-						<option value="rating">Rating Ascending</option>
+						<option value="rating_asc">Rating Ascending</option>
 						<option value="date">Release date Descending</option>
-						<option value="date">Release date Ascending</option>
+						<option value="date_asc">Release date Ascending</option>
 					</select>
-					<a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
-					<a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
+					<a href="movielist.html" class="list"><i class="ion-ios-list-outline"></i></a>
+					<a href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
 				</div>
-				<div class="flex-wrap-movielist">
-						
-					{% for pelicula in peliculas%}
-							<div class="movie-item-style-2 movie-item-style-1">
-							<img  src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="">
-							<div class="hvr-inner">
-    							<a href="{% url 'detalle_peliculas' pelicula.id %}">Read more</a>
-	            			</div>
-							<div class="mv-item-infor">
-								<h6><a  href="#">{{ pelicula.title }}</a></h6>
-							</div>
-						</div>	
-					{% endfor %}
 
+				<div class="flex-wrap-movielist" id="movie-list"></div>
 
-					
-					
-				
-					IMPLEMENTACIÓN DE LA API: Rellenar plantilla HTML 
-					<script>
-						// Donde se van a rellenar los datos de la API
-						const posters = document.querySelectorAll(".poster");
-						const titulos = document.querySelectorAll(".nombrePeli");
-						const detalle = document.querySelectorAll(".detalle");
-
-						async function getPeli(){
-							try {
-								const response = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES");
-								const data = await response.json();
-								
-								for (let i = 0; i < posters.length; i++) {
-									const peli = data.results[i];
-									
-									posters[i].src = "https://image.tmdb.org/t/p/w500" + peli.poster_path;
-									posters[i].alt = peli.title;
-									titulos[i].textContent = peli.title;
-									detalle[i].href = "/peliculas/" + peli.id + "/";
-								
-								}
-								
-							} catch (error) {	
-								console.log("Error cargando película:", error);
-							}
-						}
-						getPeli()
-
-					</script> 
-					-->
-						
-	            		
-				</div>		
 				<div class="topbar-filter">
 					<label>Movies per page:</label>
-					<select>
-						<option value="range">20 Movies</option>
-						<option value="saab">10 Movies</option>
-					</select>
-					
+					<span>20 Movies</span> 
+
 					<div class="pagination2">
-						<span>Page 1 of 2:</span>
-						<a class="active" href="#">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">...</a>
-						<a href="#">78</a>
-						<a href="#">79</a>
-						<a href="#"><i class="ion-arrow-right-b"></i></a>
+						<span id="pageInfo">Page 1 of 0</span>
+						<button id="prevPage"><i class="ion-arrow-left-b"></i></button>
+						<button id="nextPage"><i class="ion-arrow-right-b"></i></button>
 					</div>
 				</div>
+				
+				<!-- IMPLEMENTACIÓN DE LA API: Rellenar lista de películas desde TMDb -->
+				<script>
+				let page = 1;
+				const perPage = 20; 
+				let totalPages = 0;
+
+				const movieList = document.getElementById("movie-list");
+				const pageInfo = document.getElementById("pageInfo");
+				const prevPageBtn = document.getElementById("prevPage");
+				const nextPageBtn = document.getElementById("nextPage");
+				const totalMovies = document.getElementById("total-movies");
+
+				// Función principal para cargar películas desde la API
+				async function loadMovies() {
+					movieList.innerHTML = ""; // vaciar contenedor
+					try {
+						const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES&page=${page}`);
+						const data = await response.json();
+						totalMovies.textContent = data.total_results;
+						totalPages = data.total_pages;
+
+						for (let i = 0; i < perPage && i < data.results.length; i++) {
+							const peli = data.results[i];
+							const div = document.createElement("div");
+							div.className = "movie-item-style-2 movie-item-style-1";
+							div.innerHTML = `
+								<img class="poster" src="https://image.tmdb.org/t/p/w500${peli.poster_path}" alt="${peli.title}">
+								<div class="hvr-inner">
+									<a class="detalle" href="/peliculas/${peli.id}/">Read more</a>
+								</div>
+								<div class="mv-item-infor">
+									<h6 class="nombrePeli"><a href="#">${peli.title}</a></h6>
+								</div>
+							`;
+							movieList.appendChild(div);
+						}
+
+						pageInfo.textContent = `Page ${page} of ${totalPages}`;
+					} catch (error) {
+						console.log("Error cargando películas:", error);
+					}
+				}
+
+				prevPageBtn.addEventListener("click", () => {
+					if (page > 1) { page--; loadMovies(); }
+				});
+				nextPageBtn.addEventListener("click", () => {
+					if (page < totalPages) { page++; loadMovies(); }
+				});
+
+				loadMovies();
+				</script>
 			</div>
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="sidebar">
