@@ -51,100 +51,28 @@ class PeliculaDetailView(DetailView):
         return context
 
 
-
-
 class ActorListView(ListView):
     model = Actor
     context_object_name = "actores"
     template_name = "celebritylist.html"
 
     def get_queryset(self):
-
         request = self.request
 
-        nombre = request.GET.get('nombre')
-        letra = request.GET.get('letra')
-        desde = request.GET.get('nacimientoDesde')
-        hasta = request.GET.get('nacimientoHasta')
-
-        # ------------------------------
-        # 1. Petición base a TMDB
-        # ------------------------------
-        if nombre:
-            url = "https://api.themoviedb.org/3/search/person?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-        else:
-            url = "https://api.themoviedb.org/3/person/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-
-
-        response = requests.get(url)
-        data = response.json()
-
+        # Petición API
+        url = "https://api.themoviedb.org/3/person/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
+        data = requests.get(url).json()
+        
         actores = data.get("results", [])
 
-        # ------------------------------
-        # 2. Filtrar por letra inicial
-        # ------------------------------
-        if letra:
-            actores = [
-                a for a in actores
-                if a["name"].lower().startswith(letra.lower())
-            ]
-
-        # ------------------------------
-        # 3. Obtener detalles (cumpleaños)
-        # ------------------------------
-        actores_cumpleaños = []
-
+        # 3. Obtener detalles del actor
         for actor in actores:
             detalle_url = f"https://api.themoviedb.org/3/person/{actor['id']}?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES"
-            detalle_resp = requests.get(detalle_url)
-            detalle = detalle_resp.json()
+            detalle_data = requests.get(detalle_url).json()
+            actor["detalle"] = detalle_data
 
-            cumpleaños = detalle.get("birthday")  # YYYY-MM-DD o None
+        return actores
 
-            actor["cumpleanyos"] = cumpleaños
-            actores_cumpleaños.append(actor)
-
-        # ------------------------------
-        # 4. Filtrar por año de nacimiento
-        # ------------------------------
-        if desde or hasta:
-            filtrados = []
-            for actor in actores_cumpleaños:
-                if actor["cumpleanyos"]:
-                    try:
-                        año = int(actor["cumpleanyos"].split("-")[0])  # YYYY
-                        cumple_desde = not desde or año >= int(desde)
-                        cumple_hasta = not hasta or año <= int(hasta)
-                        if cumple_desde and cumple_hasta:
-                            filtrados.append(actor)
-                    except:
-                        pass
-            actores_cumpleaños = filtrados
-        print(detalle_url)
-        return actores_cumpleaños
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        actores = context["actores"]
-
-        años = []
-        for a in actores:
-            if a["cumpleanyos"]:
-                try:
-                    años.append(int(a["cumpleanyos"].split("-")[0]))  # Usar YYYY
-                except:
-                    pass
-
-        if años:
-            context["lista_anyos_nacimiento"] = [
-                str(a) for a in range(min(años), max(años) + 1)
-            ]
-        else:
-            context["lista_anyos_nacimiento"] = []
-
-        return context
 
 class ActorDetailView(DetailView):
     model = Actor

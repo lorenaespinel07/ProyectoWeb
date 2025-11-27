@@ -227,8 +227,8 @@
 								
 								<div class="ceb-infor">
 									<h2><a href="{% url 'detalle_actores' actor.id%}">{{ actor.name }}</a></h2>
-									<span>{{actor.known_for_department}}, {{ actor.cumpleanyos.place_of_birth}}</span>
-									<p>{{actor.cumpleanyos.biography}}</p>
+									<span>{{actor.detalle.known_for_department}}, {{ actor.detalle.place_of_birth}}</span>
+									<p>{{actor.detalle.biography|truncatewords:30}}</p>
 								</div>
 							</div>
 						</div>
