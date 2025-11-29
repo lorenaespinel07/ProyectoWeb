@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     let paginaActual = 1
 
@@ -5,12 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonDerecho = document.querySelector('.pagination2 .ion-arrow-right-b');
     const listaPelis = document.querySelector('.flex-wrap-movielist');
     const paginaActualSpan = document.querySelector('.pagination2 span span');
+    const buscador = document.querySelector('.top-search input');
+    const resulTotal = document.querySelector('.topbar-filter p span');
 
-    async function cargarPagina(){
-        console.log('pagina' + paginaActual);
-        json = await fetch(`https://api.themoviedb.org/3/movie/popular?page=${paginaActual}&api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES`);
-        resultado = await json.json();
-        console.log(resultado.results);
+    function cargarPagina(resultado){
+        
 
         while(listaPelis.lastChild) {
             listaPelis.removeChild(listaPelis.firstChild);
@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         window.scrollTo(0, 0);
-        console.log(paginaActualSpan)
         paginaActualSpan.textContent = resultado.page;
+        resulTotal.textContent = resulTotal.total_results
 
         
 
@@ -48,20 +48,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    botonDerecho.addEventListener('click', (event) => {
+    botonDerecho.addEventListener('click', async (event) => {
         console.log('click');
         event.preventDefault();
         event.stopPropagation();
         paginaActual++;
-        cargarPagina();
+        json = await fetch(`https://api.themoviedb.org/3/movie/popular?page=${paginaActual}&api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES`);
+        resultado = await json.json();
+        cargarPagina(resultado);
     })
 
-    botonIzquierdo.addEventListener('click', (event) => {
+    botonIzquierdo.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
         if(paginaActual !== 1){
             paginaActual--;
-            cargarPagina();
+            json = await fetch(`https://api.themoviedb.org/3/movie/popular?page=${paginaActual}&api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES`);
+            resultado = await json.json();
+            cargarPagina(resultado);
         }
     })
+
+
+    buscador.addEventListener('keypress', async event => {
+        event.stopPropagation();
+        if(event.key === 'Enter'){
+            if(event.target.value !== ''){
+                paginaActual = 1;
+                url = `https://api.themoviedb.org/3/search/movie?query=${event.target.value}&page=${paginaActual}&api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES`;
+
+                json = await fetch(url);
+                resul = await json.json();
+                console.log(resul)
+
+                cargarPagina(resul);
+
+            }
+        }
+    })
+
+
 })
