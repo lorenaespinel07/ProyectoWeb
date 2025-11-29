@@ -9,15 +9,34 @@ import requests
 # Create your views here.
 
 def lista_peliculas(request):
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 20)
+
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+    try:
+        per_page = int(per_page)
+    except ValueError:
+        per_page = 20
         
     response = requests.get("https://api.themoviedb.org/3/movie/popular?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES")
     resul = response.json()
 
-    print(resul)
+    peliculas = resul['results'][:per_page]
 
     return render(
         request,
-        'index.html',{'peliculas': resul['results'], 'pags_totales': resul['total_pages'], 'peliculas_totales': resul['total_results']}
+        'index.html',
+        {
+            'peliculas': resul['results'],
+            'generos': None,
+            'lista_anyos': None,
+            'page': page,
+            'per_page': per_page,
+            'total_pages': resul.get('total_pages', 1)
+        }
     )
 class PeliculaDetailView(DetailView):
     model = Pelicula
@@ -42,10 +61,12 @@ class PeliculaDetailView(DetailView):
 
         url = f'https://api.themoviedb.org/3/movie/{peli_id}/credits?api_key=aa02e7c79cbe08314c538b9176a77f88&language=es-ES'
 
+        print(url)
 
         creditResul = requests.get(url=url)
         resulCredit = creditResul.json()
 
+        print(resulCredit)
         context['creditos'] = resulCredit
 
         return context
@@ -103,4 +124,16 @@ class ActorDetailView(DetailView):
         context['filmografia'] = filmografia
 
         return context
+'''
 
+class GeneroListView(ListView)
+    model = Genero #object_list
+    context_object_name = "generos"
+    template_name = 'el html'
+
+    queryset = Liga.object.all().order_by("nombre")
+
+    
+
+
+'''
